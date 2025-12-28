@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { getCurrentCase } from "@/lib/caseLoader";
 
 export default function Home() {
+  const caseData = getCurrentCase();
+  const overviewLines = caseData.overview.split('\n');
+
   return (
     <div className="relative flex min-h-screen items-center justify-center px-8 py-16 overflow-hidden">
       {/* Subtle ambient elements */}
@@ -11,22 +15,22 @@ export default function Home() {
         {/* Case Title */}
         <div className="space-y-6">
           <h1 className="text-5xl md:text-7xl font-light tracking-wider text-glow text-gray-200">
-            CASE #0427
+            {caseData.title}
           </h1>
           <div className="h-px w-32 mx-auto bg-gradient-to-r from-transparent via-purple-500/30 to-transparent"></div>
         </div>
 
         {/* Unsettling Description */}
         <div className="space-y-8">
-          <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-light tracking-wide">
-            Something happened. 
-            <br />
-            The details are unclear.
-          </p>
+          {overviewLines.map((line, index) => (
+            <p key={index} className="text-lg md:text-xl text-gray-400 leading-relaxed font-light tracking-wide">
+              {line}
+            </p>
+          ))}
           <p className="text-base md:text-lg text-gray-500 leading-relaxed font-extralight italic">
-            Time seems to have stopped.
+            {caseData.metadata.time_window}
             <br />
-            The truth is waiting.
+            {caseData.metadata.location}
           </p>
         </div>
 

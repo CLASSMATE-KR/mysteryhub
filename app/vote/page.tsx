@@ -2,41 +2,28 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-
-const suspects = [
-  {
-    id: 1,
-    name: "The Watcher",
-    description: "Always observing, never seen",
-  },
-  {
-    id: 2,
-    name: "The Echo",
-    description: "Repeats what others say",
-  },
-  {
-    id: 3,
-    name: "The Shadow",
-    description: "Moves when you're not looking",
-  },
-  {
-    id: 4,
-    name: "The Silence",
-    description: "Speaks only in absence",
-  },
-];
+import { getCurrentCase } from "@/lib/caseLoader";
 
 export default function VotePage() {
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+  const caseData = getCurrentCase();
+  const suspects = Object.entries(caseData.suspects).map(([key, description], index) => ({
+    id: key,
+    name: key,
+    description: description,
+    index: index,
+  }));
+
+  const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
   const router = useRouter();
 
-  const handleVote = (id: number) => {
+  const handleVote = (id: string) => {
     setSelectedId(id);
     setHasVoted(true);
     
     // Store vote (in real app, this would be an API call)
-    localStorage.setItem("vote", id.toString());
+    localStorage.setItem("vote", id);
+    localStorage.setItem("caseId", caseData.id);
     
     // Show confirmation then redirect
     setTimeout(() => {
@@ -70,10 +57,10 @@ export default function VotePage() {
         {/* Header */}
         <div className="fade-in text-center mb-20 space-y-4">
           <h1 className="text-4xl md:text-6xl font-light tracking-wider text-gray-200 text-glow">
-            Choose Your Suspect
+            {caseData.vote_question}
           </h1>
           <p className="text-gray-500 font-extralight text-lg">
-            Who do you think is responsible?
+            Review the evidence. Choose carefully.
           </p>
         </div>
 
@@ -92,7 +79,7 @@ export default function VotePage() {
                 <div className="glass hover-glow p-12 rounded-2xl border border-white/10 h-full min-h-[300px] flex flex-col items-center justify-center space-y-6 transition-all duration-700">
                   {/* Suspect Name */}
                   <h2 className="text-3xl md:text-4xl font-light tracking-wider text-gray-200 text-glow">
-                    {suspect.name}
+                    Suspect {suspect.name}
                   </h2>
                   
                   {/* Divider */}
