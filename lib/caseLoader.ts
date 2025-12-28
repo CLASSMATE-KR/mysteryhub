@@ -38,7 +38,9 @@ const cases: { [key: string]: Case } = {
 };
 
 export function getCase(caseId: string): Case | null {
-  return cases[caseId] || null;
+  // Support both "case_001" and "001" formats
+  const normalizedId = caseId.startsWith('case_') ? caseId : `case_${caseId}`;
+  return cases[normalizedId] || null;
 }
 
 export function getCurrentCase(): Case {
