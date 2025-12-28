@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { getCurrentCase } from "@/lib/caseLoader";
+import { Case } from "@/lib/caseLoader";
 
 // Mock voting results (in real app, this would come from an API)
 const generateMockResults = (options: string[], correctAnswer: string) => {
@@ -26,14 +26,21 @@ const generateMockResults = (options: string[], correctAnswer: string) => {
 };
 
 export default function ResultPage() {
-  const caseData = getCurrentCase();
-  const results = generateMockResults(caseData.options, caseData.correct_answer);
-  
+  const [caseData, setCaseData] = useState<Case | null>(null);
+  const [loading, setLoading] = useState(true);
   const [revealed, setRevealed] = useState(false);
   const [userVote, setUserVote] = useState<string | null>(null);
   const [showAnswer, setShowAnswer] = useState(false);
 
   useEffect(() => {
+    fetch("/api/case")
+      .then(res => res.json())
+      .then(data => {
+        setCaseData(data);
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+
     // Get user's vote
     const vote = localStorage.getItem("vote");
     if (vote) {
@@ -55,6 +62,16 @@ export default function ResultPage() {
       clearTimeout(answerTimer);
     };
   }, []);
+
+  if (loading || !caseData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-400">Loading...</p>
+      </div>
+    );
+  }
+
+  const results = generateMockResults(caseData.options, caseData.correct_answer);
 
   const totalVotes = results.reduce((sum, r) => sum + r.votes, 0);
   const winner = results.reduce((prev, current) => 

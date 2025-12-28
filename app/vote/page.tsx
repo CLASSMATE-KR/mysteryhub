@@ -1,11 +1,51 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { getCurrentCase } from "@/lib/caseLoader";
+import Link from "next/link";
+import { Case } from "@/lib/caseLoader";
 
 export default function VotePage() {
-  const caseData = getCurrentCase();
+  const router = useRouter();
+  const [caseData, setCaseData] = useState<Case | null>(null);
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    fetch("/api/case")
+      .then(res => res.json())
+      .then(data => {
+        setCaseData(data);
+        setLoading(false);
+        // Check if voting is allowed
+        if (data.caseState !== 'voting') {
+          // Redirect to home if voting is not open
+          router.push('/');
+        }
+      })
+      .catch(() => setLoading(false));
+  }, [router]);
+  
+  if (loading || !caseData) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <p className="text-gray-400">Loading...</p>
+      </div>
+    );
+  }
+  
+  // Show loading or redirect message if voting is not open
+  if (caseData.caseState !== 'voting') {
+    return (
+      <div className="min-h-screen flex items-center justify-center px-8">
+        <div className="text-center space-y-4">
+          <p className="text-xl text-gray-400 font-light">Voting is not available.</p>
+          <Link href="/" className="text-gray-500 hover:text-gray-300 text-sm">
+            Return
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const suspects = Object.entries(caseData.suspects).map(([key, description], index) => ({
     id: key,
     name: key,
@@ -15,7 +55,6 @@ export default function VotePage() {
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [hasVoted, setHasVoted] = useState(false);
-  const router = useRouter();
 
   const handleVote = (id: string) => {
     setSelectedId(id);

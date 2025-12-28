@@ -2,6 +2,8 @@
   "id": "case_001",
   "title": "02:14에 멈춘 기록",
   "overview": "At 02:14, all major server logs stopped recording.\nAt 02:16, the administrator account was deleted.\nNo alerts were triggered.",
+  "caseState": "intro",
+  "status": "active",
   "metadata": {
     "location": "Server admin panel / backup log storage",
     "time_window": "02:14 ~ 02:16"
@@ -13,14 +15,62 @@
     "D": "Responsible for backup log management"
   },
   "hints": [
-    "Main logs stopped at 02:14.",
-    "Administrator account deletion occurred at 02:16.",
-    "Suspect A stated: \"I was asleep before 02:00.\"",
-    "Suspect B accessed the settings page at 02:10.",
-    "Suspect C has no access logs that day.",
-    "Backup logs can be manually stopped.",
-    "Suspect D stated: \"I did not touch the backups.\"",
-    "Backup logs stopped at 02:13."
+    {
+      "id": "hint_1",
+      "content": "Main logs stopped at 02:14.",
+      "index": 0,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_2",
+      "content": "Administrator account deletion occurred at 02:16.",
+      "index": 1,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_3",
+      "content": "Suspect A stated: \"I was asleep before 02:00.\"",
+      "index": 2,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_4",
+      "content": "Suspect B accessed the settings page at 02:10.",
+      "index": 3,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_5",
+      "content": "Suspect C has no access logs that day.",
+      "index": 4,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_6",
+      "content": "Backup logs can be manually stopped.",
+      "index": 5,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_7",
+      "content": "Suspect D stated: \"I did not touch the backups.\"",
+      "index": 6,
+      "revealed": false,
+      "revealAt": null
+    },
+    {
+      "id": "hint_8",
+      "content": "Backup logs stopped at 02:13.",
+      "index": 7,
+      "revealed": false,
+      "revealAt": null
+    }
   ],
   "vote_question": "Who deleted the administrator account?",
   "options": ["A", "B", "C", "D"],
