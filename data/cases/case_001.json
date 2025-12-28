@@ -2,17 +2,11 @@
   "id": "case_001",
   "title": "02:14에 멈춘 기록",
   "overview": "At 02:14, all major server logs stopped recording.\nAt 02:16, the administrator account was deleted.\nNo alerts were triggered.",
-  "caseState": "intro",
+  "caseState": "overview",
   "status": "active",
   "metadata": {
     "location": "Server admin panel / backup log storage",
     "time_window": "02:14 ~ 02:16"
-  },
-  "suspects": {
-    "A": "The last person who communicated with the administrator",
-    "B": "Has permission to access server settings",
-    "C": "No access record on the day of the incident",
-    "D": "Responsible for backup log management"
   },
   "hints": [
     {
@@ -71,10 +65,6 @@
       "revealed": false,
       "revealAt": null
     }
-  ],
-  "vote_question": "Who deleted the administrator account?",
-  "options": ["A", "B", "C", "D"],
-  "correct_answer": "A",
-  "answer_explanation": "Suspect A's statement conflicts with activity records at 02:12.\nBackup logs stopped before main logs.\nAdministrator deletion occurred after backup interruption.\nThe contradiction identifies A as the responsible party."
+  ]
 }
 

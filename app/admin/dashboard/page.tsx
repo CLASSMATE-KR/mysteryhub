@@ -130,7 +130,7 @@ export default function AdminDashboard() {
     );
   }
 
-  const caseStates: CaseState[] = ['intro', 'overview', 'evidence', 'suspects', 'voting', 'closed'];
+  const caseStates: CaseState[] = ['intro', 'overview', 'evidence'];
   const statuses: CaseStatus[] = ['draft', 'active', 'closed'];
 
   return (
@@ -224,7 +224,7 @@ export default function AdminDashboard() {
                       disabled={loading}
                       className="px-3 py-1 text-xs border border-white/20 hover:bg-white/5 transition-colors disabled:opacity-50"
                     >
-                      Hide
+                      Lock
                     </button>
                   ) : (
                     <button
@@ -240,28 +240,7 @@ export default function AdminDashboard() {
             ))}
           </div>
         </div>
-
-        <div className="border border-white/20 p-6">
-          <h2 className="text-lg font-light mb-4">Quick Actions</h2>
-          <div className="flex gap-2">
-            <button
-              onClick={() => updateCaseState('voting')}
-              disabled={loading || caseData.caseState === 'voting'}
-              className="px-4 py-2 border border-white/20 text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
-            >
-              Open Voting
-            </button>
-            <button
-              onClick={() => updateCaseState('closed')}
-              disabled={loading || caseData.caseState === 'closed'}
-              className="px-4 py-2 border border-white/20 text-sm hover:bg-white/5 transition-colors disabled:opacity-50"
-            >
-              Close Case
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );
 }
-

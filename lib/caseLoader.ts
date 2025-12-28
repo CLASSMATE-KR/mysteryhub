@@ -2,7 +2,7 @@ import case001 from '@/data/cases/case_001.json';
 import fs from 'fs';
 import path from 'path';
 
-export type CaseState = 'intro' | 'overview' | 'evidence' | 'suspects' | 'voting' | 'closed';
+export type CaseState = 'intro' | 'overview' | 'evidence';
 export type CaseStatus = 'draft' | 'active' | 'closed';
 
 export interface Hint {
@@ -23,14 +23,7 @@ export interface Case {
     location: string;
     time_window: string;
   };
-  suspects: {
-    [key: string]: string;
-  };
   hints: Hint[];
-  vote_question: string;
-  options: string[];
-  correct_answer: string;
-  answer_explanation: string;
 }
 
 const cases: { [key: string]: Case } = {
